@@ -1,0 +1,53 @@
+PROJECT pp220
+	PLC PP220
+		PROCESSOR CPU
+			PROGRAM calib 3 (* Structured text *)
+				PARAM
+					Resource := 2
+					Group := 0
+					Compile_Options := 1
+					Changed := 1202742512
+					Make_Options := 0
+					Exc_Irq_Number := 0
+					Moduletype := 0
+					Mode := 0
+					Status := 0
+					Install_Number := 25
+					Description := ""
+					Version := 0
+					Revision := 0
+					TargetMemory := 2
+					Compiler_Options := 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+				END_PARAM
+				CODE_INIT
+					(* init program *)
+				END_CODE_INIT
+				CODE_CYCLIC
+					(* is calibrated? *)
+					IF calibrationDone = 0 THEN
+						(* Get VC_HANDLE *)
+						VC_HANDLE := VA_Setup(1 , 'visu');
+					    IF VC_HANDLE <> 0 THEN
+							IF VA_Saccess(1,VC_HANDLE) = 0 THEN
+								(*	start calibration *)
+					        	calibrationStatus := VA_StartTouchCal(1,VC_HANDLE);
+								VA_Srelease(1,VC_HANDLE);
+								calibrationDone := 1;
+							END_IF
+						END_IF
+					END_IF
+				END_CODE_CYCLIC
+				VARIABLE
+					VAR_LOCAL RETAIN
+						calibrationDone %MX  :BOOL    ;    ! 
+					END_VAR
+					VAR_LOCAL
+						VC_HANDLE   %ML      :UDINT   ;    ! 
+						retval      %MW      :UINT    ;    ! 
+						calibrationStatus %MW :UINT   ;    ! 
+					END_VAR
+				END_VARIABLE
+			END_PROGRAM
+		END_PROCESSOR
+	END_PLC
+END_PROJECT
