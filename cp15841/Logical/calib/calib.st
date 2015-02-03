@@ -6,7 +6,7 @@ PROGRAM _CYCLIC
 (* is calibrated? *)
 IF calibrationDone = 0 THEN
 	(* Get VC_HANDLE *)
-	VC_HANDLE := VA_Setup(1 , 'visu');
+	VC_HANDLE := VA_Setup(1 , 'Visu');
     IF VC_HANDLE <> 0 THEN
 		IF VA_Saccess(1,VC_HANDLE) = 0 THEN
 			(*	start calibration *)
