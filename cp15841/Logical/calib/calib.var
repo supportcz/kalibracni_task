@@ -1,0 +1,10 @@
+VAR RETAIN
+	calibrationDone	:BOOL;	
+END_VAR
+
+
+VAR
+	VC_HANDLE	:UDINT;	
+	retval	:UINT;	
+	calibrationStatus	:UINT;	
+END_VAR
